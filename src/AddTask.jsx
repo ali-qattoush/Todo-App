@@ -17,16 +17,21 @@ class AddTask extends React.Component {
   
     handleSubmit = (event) => {
       event.preventDefault();
-      this.props.handleAddTask(this.state.task); 
-      this.setState({ task: '' });
+      if (this.state.task === '') {
+        alert("Empty submission not allowed")
+      } else {
+        this.props.handleAddTask(this.state.task); 
+        this.setState({ task: '' });
+      }
+
     };
   
     render() {
       return (
-        <div>
+        <div className='addtask'>
           <form>
-            <input type="text" value={this.state.task} onChange={this.handleChange} />
-            <button onClick={this.handleSubmit}>Submit</button>
+            <button className='submitbutton' onClick={this.handleSubmit}>+</button>
+            <input className='inputbar' type="text" placeholder="Add Task" value={this.state.task} onChange={this.handleChange} />
           </form>
         </div>
       );
