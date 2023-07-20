@@ -2,9 +2,16 @@ body,
 html,
 #root {
   height: 100%;
-  margin: 0;
-  padding: 0;
 }
+
+body {
+  background-image: url("assets/berlinTower.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
 
 .todo {
   margin: 0px 0px 20px 10px;
@@ -12,53 +19,73 @@ html,
 }
 
 .radioclass {
-  margin: 0px 0px 20px 15px;
+  margin: 12px 5px 20px 15px;
   
 }
 
-.inputbar {
-  margin: 0px 20px 0px 15px ;
+
+.tasks {
+  background-color: #333333;
+  width: 300px;
+  height: 50px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  color: white;
+  margin: 2px 0px 2px 15px;
+
 }
 
-body {
-  background-image: url("assets/berlinTower.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
- 
 
-}
 
 .addtask {
   position: sticky;
   bottom: 0;
-  background-color: #f8f8f8;
-  padding: 10px;
+  background-color: #333333;
+  color: white;
   width: 300px;
-  height: 40px;
+  height: 50px;
   padding: 6px;
   box-sizing: border-box;
-  margin-left: 15px;
   border-radius: 10px;
+  margin: 370px 0px 0px 15px;  
 
 }
 
+
+
+.addtaskelements {
+  vertical-align: middle;
+}
+
+.inputbar {
+  margin: 0px 0px 0px 15px ;
+  border: none;
+  background-color: transparent;
+  color: white;
+  outline: none;
+  font-size: 14pt;
+  padding: 0;
+
+
+}
+
+.inputbar::placeholder {
+  color: white; /* Change the color to your desired one */
+}
+
+
 .submitbutton {
+  position: relative;
+  color: white;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  display: inline-block;
-  font-size: inherit;
   padding: 0;
-  text-align: center;
-  margin-left: 7px;
-  margin-top:2px;
-  font-size: 15pt;
+  margin-left: 15px;
+  font-size: 18pt;
+  padding-top: 5px;
+ 
 }
 
 
-
-.inputbar {
-  position: fixed;
-  margin-top: 3px;
-
-}

@@ -29,7 +29,7 @@ class AddTask extends React.Component {
     render() {
       return (
         <div className='addtask'>
-          <form>
+          <form className='addtaskelements'>
             <button className='submitbutton' onClick={this.handleSubmit}>+</button>
             <input className='inputbar' type="text" placeholder="Add Task" value={this.state.task} onChange={this.handleChange} />
           </form>

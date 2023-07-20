@@ -30,8 +30,8 @@ class TODO extends React.Component {
       <div>
         <h1 className='todo'>To Do :</h1>
         {this.state.tasks.map((task, index) => (
-          <div className='radiototal' key={index}>
-            <label>
+          <div className='tasks' key={index}>
+            <label className='radiolabel'>
               <input
                 className='radioclass'
                 type="radio"
