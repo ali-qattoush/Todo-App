@@ -18,13 +18,14 @@ body {
   padding-top: 10px;
 }
 
-.radioclass {
+.radioclass, .doneTasks {
   margin: 12px 5px 20px 15px;
   
 }
 
 
-.tasks {
+.tasks, .doneTasks {
+  /* display: inline-block; */
   background-color: #333333;
   width: 300px;
   height: 50px;

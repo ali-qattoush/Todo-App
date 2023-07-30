@@ -11,15 +11,18 @@ class AddTask extends React.Component {
     }
     
   
+  
     handleChange = (event) => {
       this.setState({ task: event.target.value });
     };
   
     handleSubmit = (event) => {
       event.preventDefault();
+      console.log("thisss")
       if (this.state.task === '') {
         alert("Empty submission not allowed")
       } else {
+        // eslint-disable-next-line react/prop-types
         this.props.handleAddTask(this.state.task); 
         this.setState({ task: '' });
       }
