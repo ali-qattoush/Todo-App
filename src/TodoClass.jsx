@@ -1,144 +1,125 @@
 import React from 'react';
 import './App.css';
-import AddTask from './AddTask.jsx'
-
-
+import AddTask from './AddTask.jsx';
+import { v4 as uuidv4 } from 'uuid';
 
 class TODO extends React.Component {
   constructor() {
     super();
     this.state = {
-      tasks: ["Fetch groceries", "Clean the kitchen", "Buy new chair", "Wash the car"],
-      doneTasks : [],
-      selectedTasks: [],
-      selectedDoneTasks: []
+      data: {
+        tasks: [
+          { id: uuidv4(), text: "Fetch groceries" },
+          { id: uuidv4(), text: "Clean the kitchen" },
+          { id: uuidv4(), text: "Buy new chair" },
+          { id: uuidv4(), text: "Wash the car" },
+        ],
+        doneTasks: [],
+      }
     };
   }
 
- 
-
   handleAddTask = (task) => {
-    const updatedTasks = [...this.state.tasks, task];
-    this.setState({ tasks: updatedTasks });
+    const newTask = { id: uuidv4(), text: task };
+    console.log("testing")
+    this.setState((prevState) => ({
+      data: {
+        ...prevState.data,
+        tasks: [...prevState.data.tasks, newTask],
+      },
+    }));
   };
 
-  addDoneTask = (index) => {
-    let doneTask = this.state.tasks[index]
-    this.setState((prevState) => ({
-      tasks: prevState.tasks.filter((item) => item !== doneTask),
-      doneTasks: [...prevState.doneTasks, doneTask]
-    }))
-
-  }
-
-  removeDoneTask = (task) => {
-    this.setState((prevState) => ({
-      tasks: [...prevState.tasks, task],
-      doneTasks: prevState.doneTasks.filter((item) =>  item !== task)
-
-    }))
-
-  }
   
-  addSelectedRadio = (selectedIndex, isDoneTask) => {
-    if (isDoneTask) {
-      if (!this.state.selectedDoneTasks.includes(selectedIndex)) {
-        const addCheckbox = [...this.state.selectedDoneTasks, selectedIndex];
-        this.setState({ selectedDoneTasks: addCheckbox });
-      } else {
-        const removeCheckbox = this.state.selectedDoneTasks.filter(index => index !== selectedIndex);
-        this.setState({ selectedDoneTasks: removeCheckbox });
-      }
-    } else {
-      if (!this.state.selectedTasks.includes(selectedIndex)) {
-        const addCheckbox = [...this.state.selectedTasks, selectedIndex];
-        this.setState({ selectedTasks: addCheckbox });
-      } else {
-        const removeCheckbox = this.state.selectedTasks.filter(index => index !== selectedIndex);
-        this.setState({ selectedTasks: removeCheckbox });
-      }
-    }
-  };
-  
-  
-
-  deleteTask = () => {
+  DeleteTask = (id) => {
     this.setState((prevState) => {
-      const { tasks, doneTasks, selectedTasks, selectedDoneTasks } = prevState;
-  
-      const updatedTasks = tasks.filter((item, index) => !selectedTasks.includes(index));
-      const updatedDoneTasks = doneTasks.filter((item, index) => !selectedDoneTasks.includes(index));
-  
+      const { tasks, doneTasks } = prevState.data;
+      const updatedTasks = tasks.filter((item) => item.id !== id);
+      const updatedDoneTasks = doneTasks.filter((task) => task.id !== id);
       return {
-        tasks: updatedTasks,
-        doneTasks: updatedDoneTasks,
-        selectedTasks: [], 
-        selectedDoneTasks: []
+        data: {
+          tasks: updatedTasks,
+          doneTasks: updatedDoneTasks,
+        },
       };
     });
   };
-  
-  
 
+  CheckboxChange = (id, isDoneTask) => {
+    this.setState((prevState) => {
+      const updatedData = { ...prevState.data };
+      const task = updatedData.tasks.find((task) => task.id === id) || updatedData.doneTasks.find((task) => task.id === id);
+    
+
+      if (isDoneTask) {
+        updatedData.doneTasks = updatedData.doneTasks.filter((task) => task.id !== id);
+        updatedData.tasks = [...updatedData.tasks, task];
+      } else {
+        updatedData.tasks = updatedData.tasks.filter((task) => task.id !== id);
+        updatedData.doneTasks = [...updatedData.doneTasks, task];
+      }
+
+      return { data: updatedData };
+    });
+  };
 
   render() {
+    const { tasks, doneTasks } = this.state.data;
+
     return (
       <div>
+        <div className='todoContainer'>
         <h1 className='todo'>To Do :</h1>
-        {this.state.tasks.map((task, index) => (
-          <div className='tasks' key={index}>
-            <label className='radiolabel'>
+        {tasks.map((task) => (
+          <div className='tasks' key={task.id}>
+            <label className='checkboxlabel'>
               <input
-                className='radioclass'
-                type="radio"
-                name="option"
-                value={index}
-               
-                
-                onClick={() => this.addDoneTask(index)}
+                className='checkboxclass'
+                type='checkbox'
+                value={task.id}
+                checked={false}
+                onChange={() => this.CheckboxChange(task.id, false)}
               />
-              
-              {task}
+              <span className="checkbox-text">{task.text}</span>
             </label>
-            <input type="checkbox" checked={this.state.selectedTasks.includes(index)} onChange={() => this.addSelectedRadio(index, false)} />
+            <button className='deleteButton' onClick={() => this.DeleteTask(task.id)}>
+              <i className="fas fa-trash"></i>
 
-        
-
+             
+            </button>
           </div>
         ))}
-        <div>
-          <h1>Done :</h1>
-          {this.state.doneTasks.map((task, index) => (
-          <div className='doneTasks' key={index}>
-            <label>
-              <input
-                className='radioclass'
-                type="radio"
-                name="option"
-                value={index}
-                checked={this.state.doneTasks.includes(task)}
-               
-                
-                onClick={() => this.removeDoneTask(task)}
-              />
-              {console.log(this.state.doneTasks.includes(task))}
-              
-              {task}
-            </label>
-            <input type="checkbox" checked={this.state.selectedDoneTasks.includes(index)} onChange={() => this.addSelectedRadio(index, true)} />
-            
-
-          </div>
-        ))}
-         
         </div>
-        <button className='deleteButton' onClick={this.deleteTask}>Delete</button>
+        <div className='doneContainer'>
+          <h1 className='todo'>Done :</h1>
+  
+          {doneTasks.map((task) => (
+            <div className='doneTasks' key={task.id}>
+              <label className='checkboxlabel'>
+                <input
+                  className='checkboxclass'
+                  type='checkbox'
+                  value={task.id}
+                  checked={true}
+                  onChange={() => this.CheckboxChange(task.id, true)}
+                />
+                <span className="checkbox-text">{task.text}</span>
+                
+              </label>
+              <button className='deleteButton' onClick={() => this.DeleteTask(task.id)}>
+                <i className="fas fa-trash"></i>
+              
+              </button>
+            </div>
+          ))}
+        </div>
         <AddTask handleAddTask={this.handleAddTask} />
       </div>
     );
   }
+
+  
+
 }
-
-
 
 export default TODO;
