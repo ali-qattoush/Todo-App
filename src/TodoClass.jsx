@@ -21,6 +21,7 @@ class TODO extends React.Component {
 
   handleAddTask = (task) => {
     const newTask = { id: uuidv4(), text: task };
+    console.log("test")
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
