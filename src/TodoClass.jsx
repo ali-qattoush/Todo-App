@@ -21,7 +21,6 @@ class TODO extends React.Component {
 
   handleAddTask = (task) => {
     const newTask = { id: uuidv4(), text: task };
-    console.log("testing")
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
@@ -67,7 +66,7 @@ class TODO extends React.Component {
     const { tasks, doneTasks } = this.state.data;
 
     return (
-      <div>
+      <div className='container'>
         <div className='todoContainer'>
         <h1 className='todo'>To Do :</h1>
         {tasks.map((task) => (
